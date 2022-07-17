@@ -1,15 +1,15 @@
 # Churn prediction web app
 
-#### Machine learning based customer churn prediction model, created with _'pycaret'_ and deployed using _streamlit_
+#### Machine learning based customer churn prediction model
 
 ---
 To use the app, follow these steps:
 
 1. Clone the repository and install the requirements:
 
-`git clone https://github.com/amine-akrout/churn-prediction-web-app.git`
+`git clone https://github.com/soniya-mehta/deploy-churnapp-streamlit.git`
 
-` pip install -r requirements.txt`
+` pip install -r requirements.txt` or 'pipenv install' 
 
 2. Run the app 
 
@@ -18,8 +18,3 @@ To use the app, follow these steps:
 http://localhost:8501/
 
 ---
-
-## Demo
-
-
-![alt text](images/churndemo.gif "demo")
