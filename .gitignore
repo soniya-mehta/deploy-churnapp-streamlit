@@ -1,7 +1,0 @@
-.idea/
-.ipynb_checkpoints/
-catboost_info/
-data/
-mlruns/
-logs.txt
-logs.log

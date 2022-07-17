@@ -1,5 +1,7 @@
-pandas==1.0.1
-numpy==1.18.1
-streamlit==0.67.0
-pycaret==2.1.2
-Pillow==7.2.0
+pandas
+streamlit == 0.87
+scikit-learn==0.24.2
+numpy
+Pillow
+click<8
+protobuf==3.20.1
