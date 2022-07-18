@@ -1,7 +1,0 @@
-pandas
-streamlit == 0.87
-scikit-learn==0.24.2
-numpy
-Pillow
-click<8
-protobuf==3.20.1
