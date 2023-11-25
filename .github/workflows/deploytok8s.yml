@@ -23,14 +23,13 @@ jobs:
     - name: Login to DockerHub
       run: echo "${DOCKERHUB_TOKEN}" | docker login -u "${DOCKERHUB_USERNAME}" --password-stdin
     - name: Push Docker Image to DockerHub
-      run: docker push "${DOCKERHUB_USERNAME}/${REPO_NAME}:latest"     #dckr_pat_khXxZp3pnujThU10wGiRMnxMwXY
-    
-    #- name: Create kubeconfig
-      #run: |
-       # mkdir ${HOME}/.kube
-       # echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
-       # cat ${HOME}/.kube/config
+      run: docker push "${DOCKERHUB_USERNAME}/${REPO_NAME}:latest"     #dckr_pat_khXxZp3pnujThU10wGiRMnxMwXY    
+    - name: Create kubeconfig
+      run: |
+        mkdir ${HOME}/.kube
+        echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
+        cat ${HOME}/.kube/config
     #- name: Use context
-    #  run: kubectl config use-context octobay-api
-   # - name: Deploy to K8s
-    #  run: kubectl apply -f k8s/
+      #run: kubectl config use-context octobay-api
+    - name: Deploy to K8s
+      run: kubectl apply -f k8s/
