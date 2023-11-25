@@ -2,9 +2,9 @@ name: Deploy to Kubernetes
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ kubernetes ]
   pull_request:
-    branches: [ dev ]
+    branches: [ kubernetes ]
 
 env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USER }}
@@ -26,12 +26,12 @@ jobs:
     - name: Push Docker Image to DockerHub
         run: docker push "${DOCKERHUB_USERNAME}/${REPO_NAME}:latest"     #dckr_pat_khXxZp3pnujThU10wGiRMnxMwXY
     
-    - name: Create kubeconfig
-      run: |
-        mkdir ${HOME}/.kube
-        echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
-        cat ${HOME}/.kube/config
-    - name: Use context
-      run: kubectl config use-context octobay-api
-    - name: Deploy to K8s
-      run: kubectl apply -f k8s/
+    #- name: Create kubeconfig
+      #run: |
+       # mkdir ${HOME}/.kube
+       # echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
+       # cat ${HOME}/.kube/config
+    #- name: Use context
+    #  run: kubectl config use-context octobay-api
+   # - name: Deploy to K8s
+    #  run: kubectl apply -f k8s/
