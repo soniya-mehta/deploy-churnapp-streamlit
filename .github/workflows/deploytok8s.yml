@@ -32,4 +32,7 @@ jobs:
     - name: Use context
       run: kubectl config use-context kubernetes-admin@kubernetes
     - name: Deploy to K8s
-      run: kubectl apply -f k8s/
+      run: |
+        cd k8s
+        kubectl apply -f deployment.yaml
+        kubectl apply -f service.yaml
