@@ -3,7 +3,7 @@ name: Deploy to Kubernetes
 on:
   push:
     branches:
-      - kubernetes
+      - k8s
 
 env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USER }}
