@@ -33,6 +33,9 @@ jobs:
     - name: Push Docker Image to DockerHub
       run: docker push "${DOCKERHUB_USERNAME}/${REPO_NAME}:latest"
 
+    - name: Check Cluster Info
+      run: kubectl cluster-info
+  
     - name: Deploy to Kubernetes
       run: |
         kubectl apply -f k8s/deployment.yaml
