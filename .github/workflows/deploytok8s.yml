@@ -33,8 +33,8 @@ jobs:
         mkdir ${HOME}/.kube
         echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
         cat ${HOME}/.kube/config
-    #- name: Use context
-     # run: kubectl config use-context kubernetes-admin@kubernetes
+    - name: Use context
+      run: kubectl config use-context my-context
     - name: Deploy to K8s
       run: |
         cd k8s
