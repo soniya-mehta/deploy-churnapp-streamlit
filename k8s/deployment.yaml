@@ -15,7 +15,7 @@ spec:
       containers:
         - name: customerchurn-app
           image: wededo4644/customerchurn:latest
-          imagePullPolicy: Always
+          imagePullPolicy: Never
           ports:
             - containerPort: 8501
           resources:
