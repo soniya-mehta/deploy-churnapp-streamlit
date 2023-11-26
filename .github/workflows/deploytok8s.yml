@@ -22,6 +22,9 @@ jobs:
       run: |
         mkdir -p $HOME/.kube
         echo "$KUBE_CONFIG" | base64 --decode > $HOME/.kube/config
+        kubectl config use-context kubernetes-admin@kubernetes
+      env:
+        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}  
 
     - name: Build Docker Image
       run: docker build -t "${DOCKERHUB_USERNAME}/${REPO_NAME}:latest" .  
