@@ -20,7 +20,7 @@ jobs:
 
     - name: Set up Kubernetes
       run: |
-        apt-get update && sudo apt-get install -y kubectl
+        sudo apt-get update && sudo apt-get install -y kubectl
         kubectl version --client
         mkdir -p $HOME/.kube
         echo "$KUBE_CONFIG" | base64 --decode > $HOME/.kube/config
