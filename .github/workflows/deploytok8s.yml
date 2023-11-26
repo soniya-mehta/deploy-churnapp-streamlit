@@ -2,41 +2,35 @@ name: Deploy to Kubernetes
 
 on:
   push:
-    branches: [ kubernetes ]
-  pull_request:
-    branches: [ kubernetes ]
+    branches:
+      - kubernetes
 
 env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USER }}
   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-  REPO_NAME: "customerchurn"    
+  REPO_NAME: "customerchurn" 
 
 jobs:
   deploy:
-    name: Deploy to Kubernetes
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+
+    - name: Set up Kubernetes
+      uses: azure/kubernetes-set-up-kubectl@v1
+      with:
+        kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
     - name: Build Docker Image
       run: docker build -t "${DOCKERHUB_USERNAME}/${REPO_NAME}:latest" .  
     - name: Login to DockerHub
       run: echo "${DOCKERHUB_TOKEN}" | docker login -u "${DOCKERHUB_USERNAME}" --password-stdin
     - name: Push Docker Image to DockerHub
-      run: docker push "${DOCKERHUB_USERNAME}/${REPO_NAME}:latest"     #dckr_pat_khXxZp3pnujThU10wGiRMnxMwXY  mkdir ${HOME}/.kube  #mkdir ${HOME}/.kube  
-    #- name: Set up kubectl
-      #uses: azure/k8s-set-context@v1
-      #with:
-       # kubeconfig: ${{ secrets.KUBE_CONFIG }}
-    - name: Create kubeconfig
+      run: docker push "${DOCKERHUB_USERNAME}/${REPO_NAME}:latest"
+
+    - name: Deploy to Kubernetes
       run: |
-        mkdir ${HOME}/.kube
-        echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
-        cat ${HOME}/.kube/config
-    - name: Use context
-      run: kubectl config use-context my-context
-    - name: Deploy to K8s
-      run: |
-        cd k8s
-        kubectl apply -f deployment.yaml
-        kubectl apply -f service.yaml
+        kubectl apply -f k8s/deployment.yaml
+        kubectl apply -f k8s/service.yaml
