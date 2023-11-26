@@ -3,11 +3,11 @@ kind: Service
 metadata:
   name: customerchurn-app
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: customerchurn-app
   ports:
     - port: 80
       protocol: TCP
       targetPort: 3000
-      nodePort: 31001
+      #nodePort: 31001
