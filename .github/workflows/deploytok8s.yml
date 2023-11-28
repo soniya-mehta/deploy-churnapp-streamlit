@@ -1,0 +1,47 @@
+name: Deploy to Kubernetes
+
+on:
+  push:
+    branches:
+      - k8s
+
+env:
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USER }}
+  DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+  REPO_NAME: "customerchurn" 
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Kubernetes
+      run: |
+        sudo apt-get update && sudo snap install kubectl --classic
+        sudo curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+        sudo chmod +x ./kubectl
+        sudo mv ./kubectl /usr/local/bin/kubectl
+        kubectl version --client
+        mkdir -p $HOME/.kube
+        echo "$KUBE_CONFIG" | base64 --decode > $HOME/.kube/config
+        kubectl config use-context minikube
+      env:
+        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}  
+
+    - name: Build Docker Image
+      run: sudo docker build -t "${DOCKERHUB_USERNAME}/${REPO_NAME}:latest" .  
+    - name: Login to DockerHub
+      run: echo "${DOCKERHUB_TOKEN}" | sudo docker login -u "${DOCKERHUB_USERNAME}" --password-stdin
+    - name: Push Docker Image to DockerHub
+      run: sudo docker push "${DOCKERHUB_USERNAME}/${REPO_NAME}:latest"
+
+    - name: Check Cluster Info
+      run: kubectl cluster-info
+  
+    - name: Deploy to Kubernetes
+      run: |
+        kubectl apply -f k8s/deployment.yaml
+        kubectl apply -f k8s/service.yaml
