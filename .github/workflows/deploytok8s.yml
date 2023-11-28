@@ -18,15 +18,15 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Kubernetes
-      run: |
-        sudo apt-get update && sudo apt-get install -y kubectl
-        kubectl version --client
-        mkdir -p $HOME/.kube
-        echo "$KUBE_CONFIG" | base64 --decode > $HOME/.kube/config
-        kubectl config use-context kubernetes-admin@kubernetes
-      env:
-        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}  
+    #- name: Set up Kubernetes
+      #run: |
+       # sudo apt-get update && sudo apt-get install -y kubectl
+        #kubectl version --client
+        #mkdir -p $HOME/.kube
+        #echo "$KUBE_CONFIG" | base64 --decode > $HOME/.kube/config
+        #kubectl config use-context kubernetes-admin@kubernetes
+      #env:
+       # KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}  
 
     - name: Build Docker Image
       run: docker build -t "${DOCKERHUB_USERNAME}/${REPO_NAME}:latest" .  
@@ -35,10 +35,10 @@ jobs:
     - name: Push Docker Image to DockerHub
       run: docker push "${DOCKERHUB_USERNAME}/${REPO_NAME}:latest"
 
-    - name: Check Cluster Info
-      run: kubectl cluster-info
+    #- name: Check Cluster Info
+     # run: kubectl cluster-info
   
-    - name: Deploy to Kubernetes
-      run: |
-        kubectl apply -f k8s/deployment.yaml
-        kubectl apply -f k8s/service.yaml
+    #- name: Deploy to Kubernetes
+     # run: |
+      #  kubectl apply -f k8s/deployment.yaml
+       # kubectl apply -f k8s/service.yaml
