@@ -29,11 +29,11 @@ jobs:
        # KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}  
 
     - name: Build Docker Image
-      run: docker build -t "${DOCKERHUB_USERNAME}/${REPO_NAME}:latest" .  
+      run: sudo docker build -t "${DOCKERHUB_USERNAME}/${REPO_NAME}:latest" .  
     - name: Login to DockerHub
-      run: echo "${DOCKERHUB_TOKEN}" | docker login -u "${DOCKERHUB_USERNAME}" --password-stdin
+      run: echo "${DOCKERHUB_TOKEN}" | sudo docker login -u "${DOCKERHUB_USERNAME}" --password-stdin
     - name: Push Docker Image to DockerHub
-      run: docker push "${DOCKERHUB_USERNAME}/${REPO_NAME}:latest"
+      run: sudo docker push "${DOCKERHUB_USERNAME}/${REPO_NAME}:latest"
 
     #- name: Check Cluster Info
      # run: kubectl cluster-info
