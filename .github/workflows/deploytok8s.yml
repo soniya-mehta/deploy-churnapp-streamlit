@@ -20,7 +20,10 @@ jobs:
 
     - name: Set up Kubernetes
       run: |
-        sudo apt-get update && sudo apt-get install -y kubectl
+        sudo apt-get update && sudo snap install kubectl --classic
+        sudo curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+        sudo chmod +x ./kubectl
+        sudo mv ./kubectl /usr/local/bin/kubectl
         kubectl version --client
         mkdir -p $HOME/.kube
         echo "$KUBE_CONFIG" | base64 --decode > $HOME/.kube/config
